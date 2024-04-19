@@ -40,7 +40,7 @@ class VinoController extends CI_Controller
         $tipos = $this->VinoModel->obtener_tipos();
         $bodegas = $this->VinoModel->obtener_bodegas();
         // $images = $this->VinoModel->obtener_images();
-        // $uvas = $this->VinoModel->obtener_uvas();
+        $uvas = $this->VinoModel->obtener_uvas();
 
         # Incorporamos dichas listas al array de datos
         # A la izquierda entre comillas están las variables que usaremos en la vista para acceder a los valores de las variables que aparecen a la derecha
@@ -49,7 +49,7 @@ class VinoController extends CI_Controller
             'lista_tipos' => $tipos,
             'lista_bodegas' => $bodegas,
             // 'lista_images' => $images,
-            // 'lista_uvas' => $uvas
+            'lista_uvas' => $uvas
         );
 
         $vista = array(
@@ -60,5 +60,27 @@ class VinoController extends CI_Controller
         );
 
         $this->layoutclass->view($vista);
+    }
+
+    public function new_vino_submit()
+    {
+        # Ponemos los datos que llegan en el post en formato array para pasarlo al modelo
+        foreach ($_POST as $key => $value) {
+            $datos[$key] = $value;
+        }
+
+        // if (isset($datos['enabled'])) {
+        //     $datos['enabled'] = 1;
+        // } else {
+        //     $datos['enabled'] = 0;
+        // }
+
+        unset($datos['IdUva']);
+        unset($datos['porcentaje']);
+        unset($datos['imagen']);
+
+        $this->VinoModel->insert('vino', $datos);
+
+        header("location: /vinos_shop/index.php/admin/vinos");
     }
 }

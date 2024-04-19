@@ -74,7 +74,7 @@ class VinoModel extends CI_Model
     {
         $sql = "SELECT v.Id, v.Nombre, v.Precio, t.Nombre AS Tipo 
                 FROM vino AS v
-                INNER JOIN tipo AS t ON v.Id = t.Id";
+                INNER JOIN tipo AS t ON v.IdTipoVino = t.Id";
         $rows = $this->ExecuteArrayResults($sql);
         return ($rows);
     }
@@ -96,6 +96,13 @@ class VinoModel extends CI_Model
     public function obtener_bodegas()
     {
         $sql = "SELECT * FROM bodega";
+        $rows = $this->ExecuteArrayResults($sql);
+        return ($rows);
+    }
+
+    public function obtener_uvas()
+    {
+        $sql = "SELECT * FROM uva";
         $rows = $this->ExecuteArrayResults($sql);
         return ($rows);
     }
